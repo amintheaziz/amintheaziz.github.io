@@ -166,6 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Reset previous states
         errorMessage.style.display = 'none';
         outputArea.classList.remove('show');
+        outputArea.textContent = ''; // Clear previous output
         encryptButton.classList.add('loading');
 
         try {
@@ -174,6 +175,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!message || !password) {
                 throw new Error('Please enter both a message and a password');
+            }
+
+            if (password.length < 12) {
+                throw new Error('Password must be at least 12 characters long');
             }
 
             const encryptedMessage = await AdvancedEncryptor.hybridEncrypt(message, password);
@@ -199,6 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Reset previous states
         errorMessage.style.display = 'none';
         outputArea.classList.remove('show');
+        outputArea.textContent = ''; // Clear previous output
         decryptButton.classList.add('loading');
 
         try {
@@ -239,4 +245,33 @@ document.addEventListener('DOMContentLoaded', () => {
             passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
         });
     });
+
+    // Password strength meter
+    const strengthMeter = document.getElementById('strengthIndicator');
+    const passwordStrengthInput = document.getElementById('encryptPassword');
+    
+    if (strengthMeter && passwordStrengthInput) {
+        passwordStrengthInput.addEventListener('input', () => {
+            const password = passwordStrengthInput.value;
+            let strength = 0;
+
+            // Check password length
+            if (password.length >= 12) strength += 25;
+            if (password.length >= 16) strength += 25;
+
+            // Check for uppercase
+            if (/[A-Z]/.test(password)) strength += 25;
+
+            // Check for numbers and special characters
+            if (/[0-9]/.test(password)) strength += 12.5;
+            if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) strength += 12.5;
+
+            strengthMeter.style.width = `${Math.min(strength, 100)}%`;
+            strengthMeter.style.backgroundColor = 
+                strength < 25 ? 'red' : 
+                strength < 50 ? 'orange' : 
+                strength < 75 ? 'yellow' : 
+                'green';
+        });
+    }
 });
