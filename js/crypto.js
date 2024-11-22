@@ -271,7 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 strength < 25 ? 'light green' : 
                 strength < 50 ? 'green' : 
                 strength < 75 ? 'dark green' : 
-                'green';
+                'light green';
         });
     }
 });
