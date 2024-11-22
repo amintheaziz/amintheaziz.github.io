@@ -1,0 +1,92 @@
+@font-face {
+    font-family: 'title';
+    src: url('../fonts/18 Khebrat Musamim Bold.woff2') format('woff2'),
+         url('../fonts/18 Khebrat Musamim Bold.woff2') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'txt';
+    src: url('../fonts/(A) Arslan Wessam B (A) Arslan Wessam B (convert.io).woff2') format('woff2'),
+         url('../fonts/(A) Arslan Wessam B (A) Arslan Wessam B (convert.io).woff2') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body{
+    background-color: #f4a261;
+    font-family: txt;
+    font-size: calc(2vw + 20px);
+}
+
+input{
+    height: 4vw;
+    font-family: txt;
+    margin-top: 1%;
+    margin-left: 25%;
+    color: #e9c46a;
+    background-color: #264653;
+    border: 1px solid #2a9d8f;
+    border-radius: 0.5vw;
+    text-align: center;
+}
+
+#filter{
+    margin-top: 1vw;
+}
+
+select{
+    font-family: title;
+    font-size: calc(2vw + 15px);
+    color: #e9c46a;
+    background-color: #264653;
+    border: 1px solid #2a9d8f;
+    border-radius: 0.5vw;   
+    padding: 0.3vw; 
+}
+
+#firstSelect{
+    margin-left: 16.12%;
+}
+
+option{
+    font-size: calc(2vw + 10px);
+    color: #e9c46a;
+    background-color: #264653;
+    border: 1px solid #2a9d8f;
+    border-radius: 0.5vw;   
+}
+
+button{
+    margin-top: 1vw;
+    font-family: title;
+    font-size: calc(2vw + 20px);
+    color: #e9c46a;
+    background-color: #264653;
+    border: 1px solid #2a9d8f;
+    border-radius: 0.5vw;   
+}
+
+.find{
+    margin-left:33.3333%;
+}
+
+#result{
+    color: #e9c46a;
+    background-color: #264653;
+    border: 1px solid #2a9d8f;
+    border-radius: 0.5vw; 
+    height: 11vw;  
+}
+
+.resultValue{
+    font-family: txt;
+    font-size: calc(6.5vw + 25px);
+    color: #e9c46a;
+    text-align: center;
+}
+
+.hidden{
+    display: none;
+}

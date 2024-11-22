@@ -1,242 +1,161 @@
-class AdvancedCryptoUtils {
-    static stringToBuffer(str) {
-        return new TextEncoder().encode(str);
+    // ---- String Art Animation ----
+    const cnv1 = document.getElementById('canvas1');
+    const ctx1 = cnv1.getContext('2d');
+    let cnt, n = 8, r, r1, g1, b1, h, k, s;
+
+    function setupCanvas1() {
+      const w = Math.min(window.innerWidth, window.innerHeight) * 10.9;
+      cnv1.width = Math.floor((Math.random() * 10000));
+      cnv1.height = Math.floor((Math.random() * 10000));
+      r = w / 2.4;
+      r1 = Math.random() * 550 + 1500;
+      g1 = Math.random() * 550 + 1500;
+      b1 = Math.random() * 550 + 1500;
+      h = Math.floor(Math.random() * 4) + 1;
+      k = Math.floor(Math.random() * 4) + 1;
+      s = Math.random() * [20, 60, 120, 240][Math.floor(Math.random() * 100)];
     }
 
-    static bufferToString(buffer) {
-        return new TextDecoder().decode(buffer);
+    function drawCanvas1() {
+      const w = cnv1.width;
+      const t = performance.now() / 20;
+      ctx1.fillStyle = `rgb(${r1}, ${g1}, ${b1})`;
+      ctx1.fillRect(0, 0, w, w);
+      cnt = 0;
+      for (let i = -360; i < 360; i++) {
+        ctx1.fillStyle = `rgb(${r1 - 100 * Math.sin(i - t)}, ${g1 - 100 * Math.sin(i - t)}, ${b1 - 100 * Math.sin(i - t)})`;
+        const x = r * Math.cos(i) * Math.sin(i / h - t);
+        const y = r * Math.sin(i / k) * Math.cos(i / h - t);
+        ctx1.strokeStyle = `rgb(${r1 - 100 * Math.sin(i)}, ${g1 - 100 * Math.sin(i)}, ${b1 - 100 * Math.sin(i)})`;
+        ctx1.lineWidth = 1;
+        ctx1.beginPath();
+        ctx1.moveTo(x, y);
+        ctx1.lineTo(r * Math.cos(i / k + s + t) * Math.sin(i / h - t + s), r * Math.sin(i / k + s + t));
+        ctx1.stroke();
+      }
+      requestAnimationFrame(drawCanvas1);
     }
 
-    static base64Encode(buffer) {
-        return btoa(String.fromCharCode.apply(null, new Uint8Array(buffer)));
+    setupCanvas1();
+    drawCanvas1();
+
+    // ---- Particle Animation ----
+    const canvas2 = document.getElementById('canvas2');
+    const ctx2 = canvas2.getContext('2d');
+    const defaultConfig = { count: 100, distance: Math.floor((Math.random() * 20000) + 10000), size: 1, speed: 5 };
+    const config = Object.assign({}, defaultConfig);
+    let centerX, centerY, points = [];
+
+    function initCanvas2() {
+      canvas2.width = window.innerWidth;
+      canvas2.height = window.innerHeight;
+      centerX = Math.floor((Math.random() * 1000));
+      centerY = Math.floor((Math.random() * 1000));
+      points = Array.from({ length: config.count }).map(() => ({
+        x: centerX,
+        y: centerY,
+        hue: Math.random() * 360,
+        speed: Math.random() * Math.floor((Math.random() * 1)) + config.speed,
+        alpha: Math.random() * Math.floor((Math.random() * 1)) + 0.5
+      }));
+      ctx2.fillStyle = 'rgba(0, 0, 0, 1)';
+      ctx2.fillRect(0, 0, canvas2.width, canvas2.height);
     }
 
-    static base64Decode(base64) {
-        const binaryString = atob(base64);
-        const bytes = new Uint8Array(binaryString.length);
-        for (let i = 0; i < binaryString.length; i++) {
-            bytes[i] = binaryString.charCodeAt(i);
+    function randomStep() {
+      return (Math.random() - 0.5) * config.distance * 2;
+    }
+
+    function drawParticles() {
+      ctx2.fillStyle = 'rgba(17, 17, 17, 0.1)';
+      ctx2.fillRect(Math.floor((Math.random() * 100)), Math.floor((Math.random() * 100)), canvas2.width, canvas2.height);
+      points.forEach(point => {
+        const { x, y } = point;
+        point.x += randomStep() * point.speed;
+        point.y += randomStep() * point.speed;
+        ctx2.beginPath();
+        ctx2.moveTo(x, y);
+        ctx2.lineTo(point.x, point.y);
+        ctx2.strokeStyle = `hsla(${point.hue}, 72%, 60%, ${point.alpha})`;
+        ctx2.lineWidth = config.size;
+        ctx2.stroke();
+        point.hue = (point.hue + Math.floor((Math.random() * 1))) % 360;
+        const dx = point.x - centerX;
+        const dy = point.y - centerY;
+        const distanceFromCenter = Math.sqrt(dx * dx + dy * dy);
+        if (distanceFromCenter >= config.distance) {
+          point.x = centerX;
+          point.y = centerY;
         }
-        return bytes.buffer;
+      });
+      requestAnimationFrame(drawParticles);
     }
 
-    // Enhanced quantum entropy generation
-    static quantumEntropy() {
-        const crypto = window.crypto || window.msCrypto;
-        const randomValues = crypto.getRandomValues(new Uint32Array(4));
-        const timeEntropy = new Uint32Array([
-            Date.now(), 
-            performance.now() * 1000, 
-            Math.floor(Math.random() * 0xFFFFFFFF)
-        ]);
-        return new Uint8Array([...randomValues, ...timeEntropy]).buffer;
-    }
-}
+    initCanvas2();
+    drawParticles();
 
-class AdvancedEncryptor {
-    // Improved key derivation with more iterations and larger salt
-    static async deriveKey(password, salt) {
-        const encoder = new TextEncoder();
-        const passwordBuffer = encoder.encode(password);
+    // ---- Rope Physics Animation ----
+    const canvas3 = document.getElementById('canvas3');
+    const ctx3 = canvas3.getContext('2d');
+    let ropeGradient = ctx3.createLinearGradient(0, 0, 0, canvas3.height);
+    ropeGradient.addColorStop("0.25", "yellow");
+    ropeGradient.addColorStop("0.5", "blue");
+    ropeGradient.addColorStop("0.75", "red");
+    ropeGradient.addColorStop("1.0", "white");
+
+    const args = {
+      start: { x: Math.floor((Math.random() * 10000)), y: canvas3.height / 2 },
+      end: { x: canvas3.width - 100, y: canvas3.height / 2 },
+      resolution: Math.floor((Math.random() * 10) + 5),
+      mass: Math.floor((Math.random() * 1)),
+      damping: Math.floor((Math.random() * 1)),
+      gravity: { x: 0, y: 10 },
+      solverIterations: 500,
+      ropeColour: ropeGradient,
+      ropeSize: 4
+    };
+
+    // ---- Random Placement, Rotation, and Linking of Characters ----
+    const alpha = document.getElementById("alpha");
+    const beta = document.getElementById("beta");
+    const gamma = document.getElementById("gamma");
+
+    function randomPosition() {
+        const randomX = Math.floor(Math.random() * window.innerWidth);
+        const randomY = Math.floor(Math.random() * window.innerHeight);
+        return { x: randomX, y: randomY };
+      }
+
+    function randomRotation() {
+      return Math.floor(Math.random() * 360);
+    }
+
+    function updateCharacters() {
+        // Randomize positions and angles for Alpha, Beta, and Gamma
+        const alphaPos = randomPosition();
+        const betaPos = randomPosition();
+        const gammaPos = randomPosition();
         
-        const importedKey = await crypto.subtle.importKey(
-            'raw', 
-            passwordBuffer, 
-            { name: 'PBKDF2' }, 
-            false, 
-            ['deriveBits', 'deriveKey']
-        );
+        const alphaAngle = randomRotation();
+        const betaAngle = randomRotation();
+        const gammaAngle = randomRotation();
+      
+        // Apply random positions
+        alpha.style.left = `${alphaPos.x}px`;
+        alpha.style.top = `${alphaPos.y}px`;
+        beta.style.left = `${betaPos.x}px`;
+        beta.style.top = `${betaPos.y}px`;
+        gamma.style.left = `${gammaPos.x}px`;
+        gamma.style.top = `${gammaPos.y}px`;
+      
+        // Apply random rotations
+        alpha.style.transform = `rotate(${alphaAngle}deg)`;
+        beta.style.transform = `rotate(${betaAngle}deg)`;
+        gamma.style.transform = `rotate(${gammaAngle}deg)`;
+      
+        // Loop to keep updating positions and angles
+        setTimeout(updateCharacters, 2000); // Update every 2 seconds
+      }
 
-        return crypto.subtle.deriveKey(
-            {
-                name: 'PBKDF2',
-                salt: salt,
-                iterations: 750000, // Increased iterations for more security
-                hash: 'SHA-512'
-            },
-            importedKey,
-            { name: 'AES-GCM', length: 256 },
-            true,
-            ['encrypt', 'decrypt']
-        );
-    }
-
-    // More robust salt generation
-    static generateAdaptiveSalt() {
-        return crypto.getRandomValues(new Uint8Array(32)); // Increased salt size
-    }
-
-    // Compact hybrid encryption
-    static async hybridEncrypt(message, password) {
-        try {
-            // Generate adaptive salt
-            const salt = this.generateAdaptiveSalt();
-            
-            // Derive key using salt
-            const derivedKey = await this.deriveKey(password, salt);
-            
-            // Generate initialization vector
-            const iv = crypto.getRandomValues(new Uint8Array(12));
-            
-            // Primary encryption
-            const encryptedData = await crypto.subtle.encrypt(
-                { name: 'AES-GCM', iv: iv },
-                derivedKey,
-                AdvancedCryptoUtils.stringToBuffer(message)
-            );
-            
-            // Combine salt, iv, and encrypted data
-            const combinedData = new Uint8Array(
-                salt.length + iv.length + encryptedData.byteLength
-            );
-            
-            let offset = 0;
-            combinedData.set(salt, offset); 
-            offset += salt.length;
-            combinedData.set(iv, offset); 
-            offset += iv.length;
-            combinedData.set(new Uint8Array(encryptedData), offset);
-            
-            // Base64 encode the final package
-            return AdvancedCryptoUtils.base64Encode(combinedData);
-        } catch (error) {
-            console.error('Encryption Error:', error);
-            throw new Error('Encryption failed');
-        }
-    }
-
-    // Corresponding decryption method
-    static async hybridDecrypt(encryptedMessage, password) {
-        try {
-            // Decode the base64 encrypted message
-            const combinedData = new Uint8Array(
-                AdvancedCryptoUtils.base64Decode(encryptedMessage)
-            );
-            
-            // Extract salt (32 bytes) and IV (12 bytes)
-            const salt = combinedData.slice(0, 32);
-            const iv = combinedData.slice(32, 44);
-            const encryptedData = combinedData.slice(44);
-            
-            // Derive key using original salt
-            const derivedKey = await this.deriveKey(password, salt);
-            
-            // Decrypt
-            const decryptedBuffer = await crypto.subtle.decrypt(
-                { name: 'AES-GCM', iv: iv },
-                derivedKey,
-                encryptedData
-            );
-            
-            // Convert decrypted buffer to string
-            return AdvancedCryptoUtils.bufferToString(decryptedBuffer);
-        } catch (error) {
-            console.error('Decryption Error:', error);
-            throw new Error('Decryption failed. Check your password.');
-        }
-    }
-}
-
-// Event Listeners and UI Interactions
-document.addEventListener('DOMContentLoaded', () => {
-    // Tabs functionality
-    const tabs = document.querySelectorAll('.tab');
-    const panels = document.querySelectorAll('.panel');
-
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            // Remove active class from all tabs and panels
-            tabs.forEach(t => t.classList.remove('active'));
-            panels.forEach(p => p.classList.remove('active'));
-
-            // Add active class to clicked tab and corresponding panel
-            tab.classList.add('active');
-            document.getElementById(tab.dataset.panel).classList.add('active');
-        });
-    });
-
-    // Encryption functionality
-    const encryptButton = document.querySelector('#encrypt .button');
-    encryptButton.addEventListener('click', async () => {
-        const messageInput = document.getElementById('encryptInput');
-        const passwordInput = document.getElementById('encryptPassword');
-        const outputArea = document.getElementById('encryptedOutput');
-        const errorMessage = document.getElementById('errorMessage');
-
-        // Reset previous states
-        errorMessage.style.display = 'none';
-        outputArea.classList.remove('show');
-        encryptButton.classList.add('loading');
-
-        try {
-            const message = messageInput.value.trim();
-            const password = passwordInput.value.trim();
-
-            if (!message || !password) {
-                throw new Error('Please enter both a message and a password');
-            }
-
-            const encryptedMessage = await AdvancedEncryptor.hybridEncrypt(message, password);
-            
-            outputArea.textContent = encryptedMessage;
-            outputArea.classList.add('show');
-        } catch (error) {
-            errorMessage.textContent = `⚠️ ${error.message}`;
-            errorMessage.style.display = 'flex';
-        } finally {
-            encryptButton.classList.remove('loading');
-        }
-    });
-
-    // Decryption functionality
-    const decryptButton = document.querySelector('#decrypt .button');
-    decryptButton.addEventListener('click', async () => {
-        const messageInput = document.getElementById('decryptInput');
-        const passwordInput = document.getElementById('decryptPassword');
-        const outputArea = document.getElementById('decryptedOutput');
-        const errorMessage = document.getElementById('errorMessage');
-
-        // Reset previous states
-        errorMessage.style.display = 'none';
-        outputArea.classList.remove('show');
-        decryptButton.classList.add('loading');
-
-        try {
-            const encryptedMessage = messageInput.value.trim();
-            const password = passwordInput.value.trim();
-
-            if (!encryptedMessage || !password) {
-                throw new Error('Please enter both encrypted message and password');
-            }
-
-            const decryptedMessage = await AdvancedEncryptor.hybridDecrypt(encryptedMessage, password);
-            
-            outputArea.textContent = decryptedMessage;
-            outputArea.classList.add('show');
-        } catch (error) {
-            errorMessage.textContent = `⚠️ ${error.message}`;
-            errorMessage.style.display = 'flex';
-        } finally {
-            decryptButton.classList.remove('loading');
-        }
-    });
-
-    // Copy functionality
-    document.querySelectorAll('.copy-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const outputElement = btn.closest('.output');
-            navigator.clipboard.writeText(outputElement.textContent.trim()).then(() => {
-                btn.textContent = 'Copied!';
-                setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
-            });
-        });
-    });
-
-    // Password toggle visibility
-    document.querySelectorAll('.toggle-password').forEach(toggle => {
-        toggle.addEventListener('click', () => {
-            const passwordInput = toggle.previousElementSibling;
-            passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
-        });
-    });
-});
+    // Start the randomization and linking
+    updateCharacters();
