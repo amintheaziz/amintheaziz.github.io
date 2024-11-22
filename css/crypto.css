@@ -1,16 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&display=swap');
 
 :root {
-    --primary: #1e3a8a;
-    --primary-light: #3b82f6;
-    --secondary: #0f172a;
-    --accent: #22c55e;
+    --primary: #59bc9b;
+    --primary-light: #4d4d4d;
+    --secondary: #1a1a1a;
+    --accent: #8ff0b2;
     --danger: #dc2626;
-    --background: #f8fafc;
+    --background: #9ccdfd45;
     --surface: #ffffff;
-    --text: #0f172a;
+    --text: #1e1e1e;
     --text-light: #64748b;
-    --border: #e2e8f0;
+    --border: #9f9f9fb8;
 }
 
 * {
@@ -55,10 +55,10 @@ body {
     bottom: -10px;
     left: 50%;
     transform: translateX(-50%);
-    width: 100px;
-    height: 4px;
-    background: linear-gradient(90deg, var(--primary-light), var(--accent));
-    border-radius: 2px;
+    width: 50%;
+    height: 3%;
+    background: linear-gradient(180deg, var(--primary-light), var(--accent));
+    border-radius: 200px;
 }
 
 h1 {
