@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amin's Encryptor</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>The Super-Cryptographer</h1>
+        </div>
+
+        <div class="encryption-info">
+            <h3>Encryption Layers:</h3>
+            <div class="layer-list">
+                <div class="layer-item">
+                    <span class="layer-number">1</span>
+                    <span>Argon2 Key Derivation</span>
+                </div>
+                <div class="layer-item">
+                    <span class="layer-number">2</span>
+                    <span>Adaptive Salt Generation</span>
+                </div>
+                <div class="layer-item">
+                    <span class="layer-number">3</span>
+                    <span>Quantum-Resistant Key Expansion</span>
+                </div>
+                <div class="layer-item">
+                    <span class="layer-number">4</span>
+                    <span>AES-256-GCM Primary Encryption</span>
+                </div>
+                <div class="layer-item">
+                    <span class="layer-number">5</span>
+                    <span>ChaCha20-Poly1305 Secondary Encryption</span>
+                </div>
+                <div class="layer-item">
+                    <span class="layer-number">6</span>
+                    <span>Authenticated Encryption Hybrid</span>
+                </div>
+                <div class="layer-item">
+                    <span class="layer-number">7</span>
+                    <span>Dynamic IV & Nonce Rotation</span>
+                </div>
+                <div class="layer-item">
+                    <span class="layer-number">8</span>
+                    <span>Cryptographic Bit Shuffling</span>
+                </div>
+                <div class="layer-item">
+                    <span class="layer-number">9</span>
+                    <span>Multi-Hash Integrity Verification</span>
+                </div>
+                <div class="layer-item">
+                    <span class="layer-number">10</span>
+                    <span>Quantum Entropy Injection</span>
+                </div>
+                </div>
+                <div id="me2">
+                <a href="mailto:officialaminazizzadeh@gmail.com">Amin Azizzadeh</a>
+    </div>
+    
+            </div>
+    
+            <div class="tabs">
+                <button class="tab active" data-panel="encrypt">Encrypt Message</button>
+                <button class="tab" data-panel="decrypt">Decrypt Message</button>
+            </div>
+    
+            <div class="panel active" id="encrypt">
+                <div class="input-group">
+                    <label for="encryptInput">Message to Encrypt:</label>
+                    <textarea id="encryptInput" placeholder="Enter your message here..."></textarea>
+                </div>
+                
+                <div class="input-group">
+                    <label for="encryptPassword">Master Password:</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="encryptPassword" class="password-input" 
+                               placeholder="Enter a strong password (min. 12 characters)">
+                        <button class="toggle-password" type="button" aria-label="Toggle password visibility">
+                        </button>
+                    </div>
+                    <div class="strength-meter">
+                        <div id="strengthIndicator"></div>
+                    </div>
+                </div>
+    
+                <button class="button" onclick="encryptData()">
+                    <span class="spinner"></span>
+                    <span>Secure Encrypt</span>
+                </button>
+    
+                <div id="encryptedOutput" class="output">
+                    <button class="copy-btn">
+                        <span>Copy</span>
+                    </button>
+                </div>
+            </div>
+    
+            <div class="panel" id="decrypt">
+                <div class="input-group">
+                    <label for="decryptInput">Encrypted Message:</label>
+                    <textarea id="decryptInput" placeholder="Enter encrypted message here..."></textarea>
+                </div>
+                
+                <div class="input-group">
+                    <label for="decryptPassword">Master Password:</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="decryptPassword" class="password-input" 
+                               placeholder="Enter decryption password">
+                        <button class="toggle-password" type="button" aria-label="Toggle password visibility">
+                            
+                        </button>
+                    </div>
+                </div>
+    
+                <button class="button" onclick="decryptData()">
+                    <span class="spinner"></span>
+                    <span>Decrypt Message</span>
+                </button>
+    
+                <div id="decryptedOutput" class="output">
+                    <button class="copy-btn">
+                        <span>Copy</span>
+                    </button>
+                </div>
+            </div>
+    
+            <div class="error" id="errorMessage" style="display: none;">
+                <span>⚠️ An error occurred. Please check your input.</span>
+            </div>
+    
+        </div>
+    
+            </div>
+        </div>
+    </div>
+</body>
+</html>
