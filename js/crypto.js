@@ -268,10 +268,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             strengthMeter.style.width = `${Math.min(strength, 100)}%`;
             strengthMeter.style.backgroundColor = 
-                strength < 25 ? 'light green' : 
+                strength < 25 ? 'lightgreen' : 
                 strength < 50 ? 'green' : 
-                strength < 75 ? 'dark green' : 
-                'light green';
+                strength < 75 ? 'darkgreen' : 
+                'green';
         });
     }
 });
