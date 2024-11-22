@@ -424,12 +424,12 @@ textarea:focus {
 }
 
 #me2 a {
-    color: coral;
+    color: beige;
     text-decoration: none;
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
 #me2 a:hover {
-    color: beige;
+    color: rgb(252, 252, 86);
     transform: translateY(-3px);
 }
