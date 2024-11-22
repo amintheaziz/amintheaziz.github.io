@@ -268,9 +268,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             strengthMeter.style.width = `${Math.min(strength, 100)}%`;
             strengthMeter.style.backgroundColor = 
-                strength < 25 ? 'red' : 
-                strength < 50 ? 'orange' : 
-                strength < 75 ? 'yellow' : 
+                strength < 25 ? 'green' : 
+                strength < 50 ? 'green' : 
+                strength < 75 ? 'green' : 
                 'green';
         });
     }
